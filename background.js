@@ -2,7 +2,9 @@ let facebookTabs = {};
 let totalFacebookTime = 0;
 let lastCheckTime = Date.now();
 const MAX_TIME = 3 * 60 * 1000; // 3 minutes
+const PERIODIC_CHECK_INTERVAL = 30 * 1000; // 30 seconds (adjust as needed)
 
+// Function to update the total time spent on Facebook
 function updateTotalFacebookTime(currentTime) {
   if (Object.keys(facebookTabs).length > 0) {
     totalFacebookTime += currentTime - lastCheckTime;
@@ -12,14 +14,24 @@ function updateTotalFacebookTime(currentTime) {
   // Check if the time limit has been reached
   if (totalFacebookTime > MAX_TIME) {
     for (const tabId in facebookTabs) {
-      chrome.tabs.remove(parseInt(tabId));
+      chrome.tabs.remove(parseInt(tabId)); // Close all Facebook tabs
     }
     facebookTabs = {};
     totalFacebookTime = 0;
   }
 }
 
-// Listen for tab updates
+// Periodic check to update time even if no events occur
+chrome.alarms.create("periodicCheck", {
+  periodInMinutes: PERIODIC_CHECK_INTERVAL / 60000,
+});
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (alarm.name === "periodicCheck") {
+    updateTotalFacebookTime(Date.now());
+  }
+});
+
+// Event listeners for tab updates and closures
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   const currentTime = Date.now();
   updateTotalFacebookTime(currentTime);
@@ -36,7 +48,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   }
 });
 
-// Listen for tab removals
 chrome.tabs.onRemoved.addListener((tabId) => {
   const currentTime = Date.now();
   updateTotalFacebookTime(currentTime);
