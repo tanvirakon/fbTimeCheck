@@ -4,15 +4,128 @@
     <title>Facebook Time Tracker</title>
     <style>
       body {
-        width: 200px;
-        font-family: Arial, sans-serif;
+        width: 300px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      
+      .container {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      h1 {
+        margin: 0 0 15px 0;
+        font-size: 18px;
+        text-align: center;
+        font-weight: 600;
+      }
+      
+      .status {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 14px;
+      }
+      
+      .input-group {
+        margin-bottom: 15px;
+      }
+      
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      
+      input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.9);
+        color: #333;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+      
+      input[type="number"]:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+      }
+      
+      button {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(45deg, #4CAF50, #45a049);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      button:hover {
+        background: linear-gradient(45deg, #45a049, #4CAF50);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      
+      button:active {
+        transform: translateY(0);
+      }
+      
+      .timer-display {
+        margin-top: 15px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        text-align: center;
+        font-size: 13px;
+      }
+      
+      .error {
+        color: #ff6b6b;
+        font-size: 12px;
+        margin-top: 5px;
+        text-align: center;
       }
     </style>
   </head>
   <body>
-    <h1>Facebook Time Tracker</h1>
-    <p>
-      This extension will close Facebook tabs if open for more than 3 minutes.
-    </p>
+    <div class="container">
+      <h1>⏰ Facebook Time Tracker</h1>
+      
+      <div class="status" id="status">
+        Loading...
+      </div>
+      
+      <div class="input-group">
+        <label for="timeLimit">Time Limit (minutes):</label>
+        <input type="number" id="timeLimit" min="1" max="1440" placeholder="Enter minutes (1-1440)" value="1">
+        <div class="error" id="error"></div>
+      </div>
+      
+      <button id="submitBtn">Set Time Limit</button>
+      
+      <button id="resetBtn" style="margin-top: 10px; background: linear-gradient(45deg, #ff6b6b, #ee5a52);">Reset Timer</button>
+      
+      <div class="timer-display" id="timerDisplay">
+        Timer: 00:00
+      </div>
+    </div>
+    
+    <script src="popup.js"></script>
   </body>
 </html>
