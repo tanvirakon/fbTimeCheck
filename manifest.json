@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Facebook Time Tracker",
   "version": "1.0",
-  "permissions": ["tabs", "alarms", "storage"],
+  "permissions": ["tabs", "alarms", "storage", "notifications"],
   "background": {
     "service_worker": "background.js"
   },
